@@ -237,9 +237,9 @@ Com isso, Marina pode focar mais em liderar e menos em gerenciar, com todos os d
 
 #### **Fase 1: Estruturação e Preparação do Ambiente**
 
-1. Configurar o repositório no GitHub e a estrutura de diretórios.
-2. Configurar Docker para desenvolvimento e produção.
-3. Estruturar ambiente de desenvolvimento para frontend (React + TypeScript).
+1. Configurar o repositório no GitHub e a estrutura de diretórios. [X]
+2. Configurar Docker para desenvolvimento e produção. [todo]
+3. Estruturar ambiente de desenvolvimento para frontend (React + TypeScript).[x]
 4. Estruturar ambiente de desenvolvimento para backend (Node.js + TypeScript).
 5. Configurar banco de dados MongoDB com Mongoose.
 6. Configurar CI/CD com GitHub Actions para deploy automático.
