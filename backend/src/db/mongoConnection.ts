@@ -1,0 +1,24 @@
+import mongoose from "mongoose"
+import dotenv from "dotenv"
+
+dotenv.config()
+
+
+const URI = process.env.URI || ""
+
+
+
+const mongoConnection = () => {
+
+    try {
+
+        mongoose.connect(URI)
+    }catch(error: any){
+        console.log(error)
+    }
+
+    console.log("Mongo is connected!")
+
+}
+
+export default mongoConnection

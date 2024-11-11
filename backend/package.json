@@ -1,12 +1,13 @@
 {
   "name": "backend",
-  "version": "1.0.0",
+  "version": "v.P-0.0.3",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node ./src/server.ts mongoose"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rafael Vendramini",
   "license": "ISC",
   "description": "",
   "dependencies": {
@@ -20,6 +21,7 @@
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.0",
     "@types/helmet": "^0.0.48",
+    "mongoose": "^8.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }
