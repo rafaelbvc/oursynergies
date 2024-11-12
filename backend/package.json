@@ -1,10 +1,10 @@
 {
   "name": "backend",
-  "version": "v.P-0.0.4",
+  "version": "v.P-0.0.5",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node ./src/server.ts mongoose"
+    "dev": "ts-node ./src/server.ts nodemon"
   },
   "keywords": [],
   "author": "Rafael Vendramini",
