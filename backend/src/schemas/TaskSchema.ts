@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose"
-import { ITask } from "src/interfaces/ITask";
+import { ITask } from "../interfaces/ITask";
+
 
 
 

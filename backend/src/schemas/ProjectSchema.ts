@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
-import { IProject } from "src/interfaces/IProject";
+import { IProject } from "../interfaces/IProject";
+
 
 
 

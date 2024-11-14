@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose"
-import { IMessage } from "src/interfaces/IMessage";
+import { IMessage } from "../interfaces/IMessage";
+
 
 
 

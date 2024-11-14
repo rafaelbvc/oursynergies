@@ -17,6 +17,12 @@ export const getUser = async(request: Request, response: Response, next: NextFun
 
         const userData = await User.findOne({email : email})
 
+        if( !userData || undefined ){
+            response.status(400).json({
+                message: "Something wrong!"           
+            })
+        }
+
         response.status(200).json({status: true, message: "Success!", data: userData})
 
 
@@ -33,6 +39,12 @@ export const getUsers = async(request: Request, response: Response, next: NextFu
     try {
 
         const usersData = await User.find().lean()
+
+        if(!usersData || undefined) {
+            response.status(400).json({
+                message: "Something wrong!"           
+            })
+        }
 
         response.status(200).json({status: true, message: "Success!", data: usersData})
 
@@ -58,9 +70,16 @@ export const createUser = async(request: Request, response: Response, next: Next
 
     }
 
+    const hasUser = await User.findOne({email})
+
+    if (hasUser) {
+        response.status(400).json({
+            message: "The user already exists!"           
+        })
+
+    }
+
     try {
-
-
 
         const newUser = {
             username,
@@ -85,6 +104,7 @@ export const createUser = async(request: Request, response: Response, next: Next
 export const updateUser = (request: Request, response: Response, next: NextFunction) => {
 
 
+    console.log("gggg")
 
 
 }
