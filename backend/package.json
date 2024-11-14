@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "v.P-0.0.7",
+  "version": "v.P-0.0.8",
   "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

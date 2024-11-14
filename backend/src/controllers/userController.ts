@@ -101,10 +101,46 @@ export const createUser = async(request: Request, response: Response, next: Next
 
 }
 
-export const updateUser = (request: Request, response: Response, next: NextFunction) => {
+export const updateUser = async(request: Request, response: Response, next: NextFunction): Promise<void> => {
 
 
-    console.log("gggg")
+    const {  email } = request.params
+
+    const {  username, password, role} = request.body
+
+    if( !email || undefined ){
+        response.status(400).json({
+            message: "Something wrong!"           
+        })
+    }
+    
+    try {
+
+        const userData = await User.findOne({email : email})
+
+        if( !userData || undefined ){
+            response.status(400).json({
+                message: "Something wrong!"           
+            })
+        }
+
+        const userUpdate = {
+            username,
+            email,
+            password,
+            role
+        }
+
+        await User.findOneAndUpdate({email}, userUpdate)
+
+        response.status(200).json({status: true, message: "Success, user updated!", data: userUpdate})
+
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
 
 
 }
@@ -129,7 +165,7 @@ export const deleteUser = async(request: Request, response: Response, next: Next
 
         await User.findOneAndDelete({email})
 
-        response.status(200).json({status: true, message: "Success!", data: hasUser})
+        response.status(200).json({status: true, message: "Success, user deleted!", data: hasUser})
 
 
     } catch (error) {
