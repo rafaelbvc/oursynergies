@@ -2,6 +2,8 @@ import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 import mongoConnection from "./db/mongoConnection"
+import routes from "./routes/Router"
+
 
 dotenv.config()
 const PORT = process.env.PORT || " "
@@ -14,6 +16,8 @@ mongoConnection()
 
 server.use(express.json())
 server.use(cors({ origin: "*" }))
+server.use(routes)
+
 
 
 

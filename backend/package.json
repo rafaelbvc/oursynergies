@@ -1,10 +1,10 @@
 {
   "name": "backend",
   "version": "v.P-0.0.5",
-  "main": "index.js",
+  "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node ./src/server.ts nodemon"
+    "dev": "ts-node-dev --files src/server.ts"
   },
   "keywords": [],
   "author": "Rafael Vendramini",
@@ -21,8 +21,10 @@
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.0",
     "@types/helmet": "^0.0.48",
+    "@types/node": "^22.9.0",
     "mongoose": "^8.8.1",
-    "ts-node": "^10.9.2",
+    "nodemon": "^3.1.7",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.6.3"
   }
 }

@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { IUser } from "src/interfaces/IUser";
+import { IUser } from "../interfaces/IUser";
+
 
 
 
