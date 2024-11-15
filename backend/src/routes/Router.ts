@@ -1,21 +1,20 @@
 import Router from "express"
 import { createUser, deleteUser, getUser, getUsers, updateUser } from "../controllers/userController"
+import {createUserValidator, patchUserValidator} from "../validations/userValidation"
 
 
-const routes = Router()
+const router = Router()
 
 
+router.get("/private/admin/users", getUsers)
+
+router.get("/private/member/user/:email", getUser)
+
+router.post("/public/user/create", createUserValidator ,createUser)
+
+router.patch("/private/member/update/:email",patchUserValidator, updateUser)
+
+router.delete("/private/member/delete/:email", deleteUser)
 
 
-routes.get("/private/admin/users", getUsers)
-
-routes.get("/private/member/user/:email", getUser)
-
-routes.post("/public/user/create", createUser)
-
-routes.patch("/private/member/update/:email", updateUser)
-
-routes.delete("/private/member/delete/:email", deleteUser)
-
-
-export default routes
+export default router

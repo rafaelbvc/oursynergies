@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express"
 import  User  from "../schemas/UserSchema"
+import { validationResult } from "express-validator"
 
 
 
-export const getUser = async(request: Request, response: Response, next: NextFunction): Promise<void> => {
+export const getUser = async(request: Request, response: Response): Promise<void> => {
 
     const {  email  } = request.params
 
@@ -34,7 +35,7 @@ export const getUser = async(request: Request, response: Response, next: NextFun
 
 }
 
-export const getUsers = async(request: Request, response: Response, next: NextFunction): Promise<void> => {
+export const getUsers = async(request: Request, response: Response): Promise<void> => {
 
     try {
 
@@ -58,16 +59,15 @@ export const getUsers = async(request: Request, response: Response, next: NextFu
 
 }
 
-export const createUser = async(request: Request, response: Response, next: NextFunction): Promise<void> => {
+export const createUser = async(request: Request, response: Response): Promise<void> => {
+
 
     const { username, email, password, role } = request.body
 
-    if (!username || !email || !password || !role){
+    const errors = validationResult(request)
 
-        response.status(400).json({
-            message: "Something wrong!"           
-        })
-
+    if(!errors.isEmpty()){
+        return response.status(400).json({ errors: errors.array() }) as any
     }
 
     const hasUser = await User.findOne({email})
@@ -101,7 +101,7 @@ export const createUser = async(request: Request, response: Response, next: Next
 
 }
 
-export const updateUser = async(request: Request, response: Response, next: NextFunction): Promise<void> => {
+export const updateUser = async(request: Request, response: Response): Promise<void> => {
 
 
     const {  email } = request.params
@@ -112,6 +112,12 @@ export const updateUser = async(request: Request, response: Response, next: Next
         response.status(400).json({
             message: "Something wrong!"           
         })
+    }
+
+    const errors = validationResult(request)
+
+    if(!errors.isEmpty()){
+        return response.status(400).json({ errors: errors.array() }) as any
     }
     
     try {
