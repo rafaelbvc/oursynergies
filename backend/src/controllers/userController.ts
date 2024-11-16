@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express"
 import  User  from "../schemas/UserSchema"
+import { validationResult } from "express-validator"
 
 
 
-export const getUser = async(request: Request, response: Response, next: NextFunction): Promise<void> => {
+export const getUser = async(request: Request, response: Response): Promise<void> => {
 
     const {  email  } = request.params
 
@@ -17,6 +18,12 @@ export const getUser = async(request: Request, response: Response, next: NextFun
 
         const userData = await User.findOne({email : email})
 
+        if( !userData || undefined ){
+            response.status(400).json({
+                message: "Something wrong!"           
+            })
+        }
+
         response.status(200).json({status: true, message: "Success!", data: userData})
 
 
@@ -28,11 +35,17 @@ export const getUser = async(request: Request, response: Response, next: NextFun
 
 }
 
-export const getUsers = async(request: Request, response: Response, next: NextFunction): Promise<void> => {
+export const getUsers = async(request: Request, response: Response): Promise<void> => {
 
     try {
 
         const usersData = await User.find().lean()
+
+        if(!usersData || undefined) {
+            response.status(400).json({
+                message: "Something wrong!"           
+            })
+        }
 
         response.status(200).json({status: true, message: "Success!", data: usersData})
 
@@ -46,21 +59,27 @@ export const getUsers = async(request: Request, response: Response, next: NextFu
 
 }
 
-export const createUser = async(request: Request, response: Response, next: NextFunction): Promise<void> => {
+export const createUser = async(request: Request, response: Response): Promise<void> => {
+
 
     const { username, email, password, role } = request.body
 
-    if (!username || !email || !password || !role){
+    const errors = validationResult(request)
 
+    if(!errors.isEmpty()){
+        return response.status(400).json({ errors: errors.array() }) as any
+    }
+
+    const hasUser = await User.findOne({email})
+
+    if (hasUser) {
         response.status(400).json({
-            message: "Something wrong!"           
+            message: "The user already exists!"           
         })
 
     }
 
     try {
-
-
 
         const newUser = {
             username,
@@ -82,9 +101,52 @@ export const createUser = async(request: Request, response: Response, next: Next
 
 }
 
-export const updateUser = (request: Request, response: Response, next: NextFunction) => {
+export const updateUser = async(request: Request, response: Response): Promise<void> => {
 
 
+    const {  email } = request.params
+
+    const {  username, password, role} = request.body
+
+    if( !email || undefined ){
+        response.status(400).json({
+            message: "Something wrong!"           
+        })
+    }
+
+    const errors = validationResult(request)
+
+    if(!errors.isEmpty()){
+        return response.status(400).json({ errors: errors.array() }) as any
+    }
+    
+    try {
+
+        const userData = await User.findOne({email : email})
+
+        if( !userData || undefined ){
+            response.status(400).json({
+                message: "Something wrong!"           
+            })
+        }
+
+        const userUpdate = {
+            username,
+            email,
+            password,
+            role
+        }
+
+        await User.findOneAndUpdate({email}, userUpdate)
+
+        response.status(200).json({status: true, message: "Success, user updated!", data: userUpdate})
+
+
+    } catch (error) {
+
+        console.log(error)
+
+    }
 
 
 }
@@ -109,7 +171,7 @@ export const deleteUser = async(request: Request, response: Response, next: Next
 
         await User.findOneAndDelete({email})
 
-        response.status(200).json({status: true, message: "Success!", data: hasUser})
+        response.status(200).json({status: true, message: "Success, user deleted!", data: hasUser})
 
 
     } catch (error) {

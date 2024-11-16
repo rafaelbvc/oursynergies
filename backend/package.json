@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "v.P-0.0.5",
+  "version": "v.P-0.1.0",
   "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,6 +14,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "express-validator": "^7.2.0",
     "helmet": "^8.0.0"
   },
   "devDependencies": {

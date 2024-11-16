@@ -14,7 +14,7 @@ const mongoConnection = () => {
 
         mongoose.connect(URI)
     }catch(error: any){
-        console.log(error)
+        console.log(error, "Something went wrong")
     }
 
     console.log("Mongo is connected!")
