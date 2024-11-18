@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import  User  from "../schemas/UserSchema"
 import { validationResult } from "express-validator"
+import { encrypt } from "../services/encrypt"
 
 
 
@@ -41,6 +42,7 @@ export const getUsers = async(request: Request, response: Response): Promise<voi
 
         const usersData = await User.find().lean()
 
+
         if(!usersData || undefined) {
             response.status(400).json({
                 message: "Something wrong!"           
@@ -51,12 +53,10 @@ export const getUsers = async(request: Request, response: Response): Promise<voi
 
 
     } catch (error) {
-
+        
         console.log(error)
-
+        
     }
-
-
 }
 
 export const createUser = async(request: Request, response: Response): Promise<void> => {
@@ -67,10 +67,12 @@ export const createUser = async(request: Request, response: Response): Promise<v
     const errors = validationResult(request)
 
     if(!errors.isEmpty()){
-        return response.status(400).json({ errors: errors.array() }) as any
+        return response.status(400).json({ errors: errors })  as any
     }
 
     const hasUser = await User.findOne({email})
+
+    const hashedPassword = await  encrypt(password)
 
     if (hasUser) {
         response.status(400).json({
@@ -84,7 +86,7 @@ export const createUser = async(request: Request, response: Response): Promise<v
         const newUser = {
             username,
             email,
-            password,
+            password: hashedPassword,
             role
         }
 
@@ -119,6 +121,8 @@ export const updateUser = async(request: Request, response: Response): Promise<v
     if(!errors.isEmpty()){
         return response.status(400).json({ errors: errors.array() }) as any
     }
+
+    const hashedPassword = await encrypt(password)
     
     try {
 
@@ -133,7 +137,7 @@ export const updateUser = async(request: Request, response: Response): Promise<v
         const userUpdate = {
             username,
             email,
-            password,
+            password: hashedPassword,
             role
         }
 
