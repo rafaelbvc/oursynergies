@@ -67,12 +67,12 @@ export const createUser = async(request: Request, response: Response): Promise<v
     const errors = validationResult(request)
 
     if(!errors.isEmpty()){
-        return response.status(400).json({ errors: errors.array() }) as any
+        return response.status(400).json({ errors: errors })  as any
     }
 
     const hasUser = await User.findOne({email})
 
-    const hashedPassword = encrypt(password)
+    const hashedPassword = await  encrypt(password)
 
     if (hasUser) {
         response.status(400).json({

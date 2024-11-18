@@ -1,8 +1,7 @@
-import express, { NextFunction, Response, Request } from "express";
+import { Response, Request } from "express";
 import  jsonwebtoken from "jsonwebtoken"
 import User from "../schemas/UserSchema"
 import dotenv from "dotenv"
-// import { encrypt } from "../services/encrypt";
 import bcrypt from "bcrypt"
 dotenv.config()
 
@@ -36,7 +35,6 @@ export const userAuth = async(request: Request, response: Response): Promise<voi
     const validate = await bcrypt.compare(password, hashedPassword) as any
 
     if(validate){
-      console.log(validate, "validate2")
         const id = userData._id
         const token = jsonwebtoken.sign({id}, secret, {
             expiresIn: 3000
