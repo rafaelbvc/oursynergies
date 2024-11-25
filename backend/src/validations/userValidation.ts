@@ -49,3 +49,10 @@ import {  body  } from "express-validator"
 
 
 
+export const deleteUserValidator = [
+    body("email")
+    .exists()
+    .withMessage("Email is required")
+    .isEmail()
+    .withMessage("Email should be valid")
+]

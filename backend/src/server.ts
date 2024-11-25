@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import cors from "cors"
 import mongoConnection from "./db/mongoConnection"
 import routes from "./routes/Router"
+import allowedOrigins from "../configuration/allowedOrigins"
 
 
 
@@ -17,7 +18,7 @@ mongoConnection()
 
 
 server.use(express.json())
-server.use(cors({ origin: "*" }))
+server.use(cors({ origin: allowedOrigins}))
 server.use(routes)
 
 

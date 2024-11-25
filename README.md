@@ -249,9 +249,9 @@ Com isso, Marina pode focar mais em liderar e menos em gerenciar, com todos os d
 #### **Fase 2: Autenticação e Autorização**
 
 1. Criar modelo de usuário com Mongoose e validação de dados.[x]
-2. Configurar autenticação com JWT (registro e login).
+2. Configurar autenticação com JWT (registro e login).[x]
 3. Criar middleware de autorização com papéis (admin, membro, visualizador).
-4. Implementar recuperação de senha e envio de email de confirmação.
+4. Implementar recuperação de senha e de email de confirmação.
 5. (Opcional) Configurar login OAuth com Google/GitHub.
 
 ---

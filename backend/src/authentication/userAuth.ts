@@ -15,33 +15,53 @@ export const userAuth = async(request: Request, response: Response): Promise<voi
     const  {email, password}  = request.body
     
 
-    if(!email) {
-        return response.status(404).json({ message: "Something wrong!"}) as any
+    if(!email || !password) {
+        return response.status(400).json({ message: "Missing Email or Password!"}) as any
+    }
+
+    try {
+
+
+        const userData = await User.findOne({email})
+
+        if(!userData) {
+
+            return response.status(404).json({ message: "No users, please register first!"}) as any
+    
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 11 )
+        const validate = await bcrypt.compare(password, hashedPassword) as any
+
+        if(validate){
+            const userId = userData._id
+            const userRole = userData.role
+            const token = jsonwebtoken.sign({userId, userRole}, secret, {
+                expiresIn: 3000
+            })
+
+            
+            
+            return response.json({auth: true, token: token}) as any
+        }
+    
+        
+    
+
+    } catch (error) {
+        return response.status(500).json({ message: "Forbidden!" }) as any
+
     }
 
 
+   
 
-    const userData = await User.findOne({email})
+ 
 
-    if(!userData) {
+    
 
-        return response.status(404).json({ message: "No users, please register first!"}) as any
-
-    }
+    
 
 
-    const hashedPassword = await bcrypt.hash(password, 11 )
-
-    const validate = await bcrypt.compare(password, hashedPassword) as any
-
-    if(validate){
-        const id = userData._id
-        const token = jsonwebtoken.sign({id}, secret, {
-            expiresIn: 3000
-        })
-        return response.json({auth: true, token: token}) as any
-    }
-
-    return response.status(500).json({ message: "Invalid login!" }) as any
 
 }

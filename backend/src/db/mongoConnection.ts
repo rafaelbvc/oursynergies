@@ -8,11 +8,11 @@ const URI = process.env.URI || ""
 
 
 
-const mongoConnection = () => {
+const mongoConnection = async() => {
 
     try {
 
-        mongoose.connect(URI)
+        await mongoose.connect(URI)
     }catch(error: any){
         console.log(error, "Something went wrong")
     }
