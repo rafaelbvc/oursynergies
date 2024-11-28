@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import dotenv from "dotenv"
+import { rolesLevel } from "../utils/rolesLevel";
 dotenv.config()
 
 
@@ -8,27 +9,40 @@ dotenv.config()
 
 export const roleAuthorization = (role: string) => {
     return (request: Request, response: Response, next: NextFunction): void => {
+
+      
+    
       try {
-        const {userRole, userId} = request.userRole as any;
+        const userRole = request.userRole 
+        const userId = request.userId
   
         console.log("User Role:", userRole, userId);
   
-        if (!userRole) {
+        if (!userRole ) {
           return response.status(403).json({ message: "Role not found for user" }) as any
-          // return;
         }
   
         console.log(userRole, role)
-        if (userRole !== role) {
-          return response
-            .status(403)
-            .json({ message: "You do not have permission to access this resource" }) as any
-          
+
+        const checkPermission =  rolesLevel(role)
+        const permission = rolesLevel(userRole)
+
+
+        console.log(checkPermission, permission, "acesslevel")
+
+        if(permission && checkPermission && permission >= checkPermission  ) {
+         next()
         }
+
+
+        return response
+          .status(403)
+          .json({ message: "You do not have permission to access this resource" }) as any
+          
+      
   
-        next();
       } catch (error) {
-        response.status(500).json({ message: "Internal Server Error", error });
+         return response.status(500).json({ message: "Internal Server Error", error }) as any
       }
     };
   };
