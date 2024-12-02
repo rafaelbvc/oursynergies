@@ -46,22 +46,8 @@ export const userAuth = async(request: Request, response: Response): Promise<voi
         }
     
         
-    
-
     } catch (error) {
         return response.status(500).json({ message: "Forbidden!" }) as any
-
     }
-
-
-   
-
- 
-
-    
-
-    
-
-
 
 }

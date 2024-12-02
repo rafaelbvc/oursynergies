@@ -5,6 +5,7 @@ import { userAuth } from "../authentication/userAuth"
 import { jwtAuthorization } from "../middlewares/jwtAuthorization"
 import { userLogout } from "../authentication/userLogout"
 import { roleAuthorization } from "../middlewares/roleAuthorization"
+import  {emailRecover}  from "../controllers/recoverController"
 
 
 const router = Router()
@@ -23,6 +24,8 @@ router.delete("/private/member/delete", jwtAuthorization, deleteUser)
 router.post("/public/user/login", userAuth)
 
 router.post("/private/user/logout", jwtAuthorization, userLogout)
+
+router.post("/recover/email/", emailRecover)
 
 
 export default router
